@@ -1,4 +1,4 @@
-site_name: Selenium Python Documentation
+site_name: Selenium Python
 site_description: A browser automation framework and ecosystem.
 docs_dir: newdocs
 
@@ -20,16 +20,16 @@ watch:
   - selenium/
 
 nav:
-  - Code Reference: ref/
+  - API Documentation: ref/
 plugins:
     - search
-    - autorefs
-    - section-index
     - gen-files:
         scripts:
           - newdocs/auto_generate.py
     - literate-nav:
         nav_file: summary.md
+    - autorefs
+    - section-index
     - mkdocstrings:
         default_handler: python
         handlers:

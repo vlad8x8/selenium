@@ -75,7 +75,7 @@ class WebDriverWait:
         :param method: callable(WebDriver)
         :param message: optional message for :exc:`TimeoutException`
         :returns: the result of the last call to `method`
-        :raises: :exc:`selenium.common.exceptions.TimeoutException` if timeout occurs
+        :raises selenium.common.exceptions.TimeoutException: if timeout occurs
         """
         screen = None
         stacktrace = None
@@ -102,7 +102,7 @@ class WebDriverWait:
         :param message: optional message for :exc:`TimeoutException`
         :returns: the result of the last call to `method`, or
                   ``True`` if `method` has raised one of the ignored exceptions
-        :raises: :exc:`selenium.common.exceptions.TimeoutException` if timeout occurs
+        :raises selenium.common.exceptions.TimeoutException: if timeout occurs
         """
         end_time = time.monotonic() + self._timeout
         while True:
