@@ -122,3 +122,6 @@ bazel-testlogs
 /.vscode/
 /.scannerwork/
 /.bazelrc.local
+
+# python new docs
+site/

@@ -1,0 +1,56 @@
+site_name: Selenium Python Documentation
+site_description: A browser automation framework and ecosystem.
+docs_dir: newdocs
+
+theme:
+  name: material
+  features:
+    - content.code.annotate
+  palette:
+    primary: green
+    accent: purple
+  font:
+    text: Work Sans
+    code: Work Sans
+  icon:
+    repo: fontawesome/brands/git
+repo_name: seleniumHQ/selenium
+repo_url: https://github.com/SeleniumHQ/selenium/
+watch:
+  - selenium/
+
+nav:
+  - Code Reference: ref/
+plugins:
+    - search
+    - autorefs
+    - section-index
+    - gen-files:
+        scripts:
+          - newdocs/auto_generate.py
+    - literate-nav:
+        nav_file: summary.md
+    - mkdocstrings:
+        default_handler: python
+        handlers:
+          python:
+            options:
+              docstring_style: sphinx
+              line_length: 88
+              show_if_no_docstring: false
+              merge_init_into_class: true
+              show_source: false
+              docstring_section_style: table
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
