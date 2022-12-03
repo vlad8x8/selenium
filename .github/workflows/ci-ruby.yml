@@ -24,10 +24,6 @@ jobs:
     if: ${{ needs.check_workflow.outputs.result == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || contains(toJson(github.event.commits), '[rb]') == true }}
     needs: check_workflow
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [ 'selenium-devtools', 'selenium-webdriver' ]
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v3
@@ -40,21 +36,28 @@ jobs:
         uses: ./.github/actions/cache-bazel
         with:
           workflow: ruby
-          key: gem-${{ matrix.target }}
-      - name: Build Gems
+          key: gem
+      - name: Build Webdriver Gem
         uses: ./.github/actions/bazel
         with:
-          command: build //rb:${{ matrix.target }}
+          command: build //rb:selenium-webdriver
+      - name: Build Devtools Gem
+        uses: ./.github/actions/bazel
+        with:
+          command: build //rb:selenium-devtools
 
-  chrome-test:
+  chrome:
     if: ${{ needs.check_workflow.outputs.result == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || contains(toJson(github.event.commits), '[run ruby]') == true }}
     needs: check_workflow
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
       matrix:
-        target: [ 'chrome-test', 'remote-chrome-test' ]
-        os: [ 'ubuntu-latest', 'windows-latest' ]
+        os: [ 'ubuntu', 'windows', 'macos' ]
+        version: [ 'stable' ]
+        remote: [ '', 'remote-' ]
+        include:
+          - { "os": "ubuntu", "version": "beta", "browser": "chrome" }
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v3
@@ -67,40 +70,45 @@ jobs:
         uses: ./.github/actions/cache-bazel
         with:
           workflow: ruby
-          key: ${{ matrix.target }}
+          key: ${{ matrix.remote }}chrome-test
       - name: Setup Fluxbox
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: sudo apt-get -y install fluxbox
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: stable
+          chrome-version: ${{ matrix.version }}
       - name: Start XVFB
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: Xvfb :99 &
       - name: Start Fluxbox
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: fluxbox -display :99 &
-      - name: Set resolution
-        if: matrix.os == 'windows-latest'
+      - name: Set Windows resolution
+        if: matrix.os == 'windows'
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - name: Set Mac resolution
+        if: ${{ matrix.os == 'macos' }}
+        run: |
+          system_profiler SPDisplaysDataType | grep Resolution
+          "/Library/Application Support/VMware Tools/vmware-resolutionSet" 2560 1440
+          system_profiler SPDisplaysDataType | grep Resolution
       - name: Run Chrome tests
         uses: ./.github/actions/bazel
         with:
-          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.target }}
-          attempts: 3
+          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.remote }}chrome-test
         env:
           DISPLAY: :99
 
-  edge-test:
+  edge:
     if: ${{ needs.check_workflow.outputs.result == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || contains(toJson(github.event.commits), '[run ruby]') == true }}
     needs: check_workflow
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
       matrix:
-        target: [ 'edge-test', 'remote-edge-test' ]
-        os: [ 'windows-latest' ]
+        os: [ 'windows' ]
+        browser: [ '', 'remote-' ]
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v3
@@ -113,7 +121,7 @@ jobs:
         uses: ./.github/actions/cache-bazel
         with:
           workflow: ruby
-          key: ${{ matrix.target }}
+          key: edge-test
       - name: Setup Edge
         uses: browser-actions/setup-edge@latest
         with:
@@ -121,18 +129,17 @@ jobs:
       - name: Run Edge tests
         uses: ./.github/actions/bazel
         with:
-          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.target }}
-          attempts: 3
+          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.remote }}edge-test
 
-  firefox-test:
+  ie:
     if: ${{ needs.check_workflow.outputs.result == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || contains(toJson(github.event.commits), '[run ruby]') == true }}
     needs: check_workflow
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
       matrix:
-        target: [ 'firefox-test', 'remote-firefox-test' ]
-        os: [ 'ubuntu-latest', 'windows-latest' ]
+        os: [ 'windows' ]
+        remote: [ '', 'remote-' ]
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v3
@@ -145,29 +152,70 @@ jobs:
         uses: ./.github/actions/cache-bazel
         with:
           workflow: ruby
-          key: ${{ matrix.target }}
+          key: ${{ matrix.remote }}ie-test
+      - name: Setup Edge
+        uses: browser-actions/setup-edge@latest
+        with:
+          edge-version: stable
+      - name: Run IE tests
+        uses: ./.github/actions/bazel
+        with:
+          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.remote }}ie-test
+
+  firefox:
+    if: ${{ needs.check_workflow.outputs.result == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || contains(toJson(github.event.commits), '[run ruby]') == true }}
+    needs: check_workflow
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'ubuntu', 'windows' ]
+        version: [ '' ]
+        remote: [ '', 'remote-' ]
+        include:
+          - { "os": 'ubuntu', "version": "-devedition", "remote": "" }
+          - { "os": 'windows', "version": "-devedition", "remote": "" }
+          - { "os": 'macos', "version": "", "remote": "" }
+    steps:
+      - name: Checkout source tree
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'adopt'
+      - name: Cache Bazel artifacts
+        uses: ./.github/actions/cache-bazel
+        with:
+          workflow: ruby
+          key: ${{ matrix.remote }}firefox-test
       - name: Setup Fluxbox
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: sudo apt-get -y install fluxbox
       - name: Setup Firefox
-        uses: abhi1693/setup-browser@v0.3.4
+        uses: abhi1693/setup-browser@v0.3.5
         with:
           browser: firefox
-          version: latest
+          version: latest${{ matrix.version }}
       - name: Start XVFB
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: Xvfb :99 &
       - name: Start Fluxbox
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: fluxbox -display :99 &
-      - name: Set resolution
-        if: matrix.os == 'windows-latest'
+      - name: Set Windows resolution
+        if: matrix.os == 'windows'
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - name: Set Mac resolution
+        if: ${{ matrix.os == 'macos' }}
+        run: |
+          system_profiler SPDisplaysDataType | grep Resolution
+          "/Library/Application Support/VMware Tools/vmware-resolutionSet" 2560 1440
+          system_profiler SPDisplaysDataType | grep Resolution
       - name: Run Firefox tests
         uses: ./.github/actions/bazel
         with:
-          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.target }}
-          attempts: 3
+          command: test --cache_test_results=no --test_output=all //rb:${{ matrix.remote }}firefox-test
         env:
           DISPLAY: :99
 
