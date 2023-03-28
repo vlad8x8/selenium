@@ -1,20 +1,24 @@
-load("@rules_dotnet//dotnet:defs.bzl", "csharp_library")
+load("@rules_dotnet//dotnet:defs.bzl", "csharp_binary", "csharp_library")
+load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
 
-csharp_library(
-    name = "generator-lib",
+csharp_binary(
+    name = "generator",
     srcs = glob(["**/*.cs"]),
-    target_frameworks = [
-        "net6.0",
-    ],
+    runtime_identifier = select({
+        "//common:macos": "osx.12-arm64",
+        "//common:linux": "linux-x64",
+        "//common:windows": "win10-x64",
+    }),
+    target_frameworks = DEFAULT_FRAMEWORKS,
     deps = [
-        "@dotnet_deps//commandlineparser",
-        "@dotnet_deps//handlebars.net",
-        "@dotnet_deps//humanizer.core",
-        "@dotnet_deps//microsoft.csharp",
-        "@dotnet_deps//microsoft.extensions.dependencyinjection",
-        "@dotnet_deps//microsoft.extensions.dependencyinjection.abstractions",
-        "@dotnet_deps//microsoft.netcore.app.ref",
-        "@dotnet_deps//newtonsoft.json",
-        "@dotnet_deps//system.runtime",
+        framework("CommandLineParser"),
+        framework("Handlebars.Net"),
+        framework("Humanizer.Core"),
+        framework("Microsoft.CSharp"),
+        framework("Microsoft.Extensions.DependencyInjection"),
+        framework("Microsoft.Extensions.DependencyInjection.Abstractions"),
+        framework("Microsoft.NETCore.App.Ref"),
+        framework("Newtonsoft.Json"),
+        framework("System.Runtime"),
     ],
 )
