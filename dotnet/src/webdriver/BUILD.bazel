@@ -6,6 +6,13 @@ csharp_library(
     srcs = glob([
         "**/*.cs",
     ]) + devtools_version_targets(),
+    resources = [
+        "//javascript/atoms/fragments:find-elements.js",
+        "//javascript/atoms/fragments:is-displayed.js",
+        "//javascript/cdp-support:mutation-listener.js",
+        "//javascript/webdriver/atoms:get-attribute.js",
+        "//third_party/js/selenium:webdriver_json",
+    ],
     target_frameworks = DEFAULT_FRAMEWORKS,
     visibility = [
         "//dotnet:__subpackages__",
@@ -16,12 +23,5 @@ csharp_library(
         framework("Microsoft.NETCore.App.Ref"),
         framework("Newtonsoft.Json"),
         framework("System.Runtime"),
-    ],
-    resources = [
-        "//javascript/atoms/fragments:find-elements.js",
-        "//javascript/atoms/fragments:is-displayed.js",
-        "//javascript/cdp-support:mutation-listener.js",
-        "//javascript/webdriver/atoms:get-attribute.js",
-        "//third_party/js/selenium:webdriver_json",
     ],
 )

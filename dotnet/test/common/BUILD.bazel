@@ -1,13 +1,15 @@
-load("@rules_dotnet//dotnet:defs.bzl", "csharp_nunit_test")
-load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
+load("//dotnet:defs.bzl", "dotnet_nunit_test_suite", "framework")
 
-csharp_nunit_test(
-    name = "CookieTest",
-    srcs = ["CookieTest.cs"],
-    target_frameworks = DEFAULT_FRAMEWORKS,
+dotnet_nunit_test_suite(
+    name = "AllTests",
+    size = "large",
+    srcs = glob(["**/*.cs"]),
+    target_frameworks = ["net6.0"],
     deps = [
         "//dotnet/src/webdriver",
         framework("Microsoft.NETCore.App.Ref"),
+        framework("Newtonsoft.Json"),
+        framework("NUnit"),
         framework("System.Runtime"),
     ],
 )

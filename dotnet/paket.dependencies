@@ -27,5 +27,7 @@ group dotnet_deps
     nuget Microsoft.IdentityModel.Tokens 6.19.0
     nuget Microsoft.NETCore.App.Ref 6.0.8
     nuget Newtonsoft.Json 13.0.1
+    nuget NUnit 3.13.2
+    nuget NUnitLite 3.13.2
     nuget System.Diagnostics.Tools 4.3.0
     nuget System.Runtime 4.3.1
