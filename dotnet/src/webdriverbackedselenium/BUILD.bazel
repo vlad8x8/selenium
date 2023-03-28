@@ -1,0 +1,18 @@
+load("@rules_dotnet//dotnet:defs.bzl", "csharp_library")
+load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
+
+csharp_library(
+    name = "support",
+    srcs = glob([
+        "**/*.cs",
+    ]),
+    target_frameworks = DEFAULT_FRAMEWORKS,
+    visibility = [
+        "//dotnet/test:__subpackages__",
+    ],
+    deps = [
+        "//dotnet/src/webdriver",
+        framework("Microsoft.NETCore.App.Ref"),
+        framework("System.Runtime"),
+    ],
+)
