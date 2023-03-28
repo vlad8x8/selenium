@@ -6,4 +6,15 @@ csharp_library(
     target_frameworks = [
         "net6.0",
     ],
+    deps = [
+        "@dotnet_deps//commandlineparser",
+        "@dotnet_deps//handlebars.net",
+        "@dotnet_deps//humanizer.core",
+        "@dotnet_deps//microsoft.csharp",
+        "@dotnet_deps//microsoft.extensions.dependencyinjection",
+        "@dotnet_deps//microsoft.extensions.dependencyinjection.abstractions",
+        "@dotnet_deps//microsoft.netcore.app.ref",
+        "@dotnet_deps//newtonsoft.json",
+        "@dotnet_deps//system.runtime",
+    ],
 )

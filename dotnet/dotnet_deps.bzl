@@ -2,10 +2,10 @@
 
 load("@rules_dotnet//dotnet:defs.bzl", "nuget_repo")
 
-def Main():
-    "Main"
+def dotnet_deps():
+    "dotnet_deps"
     nuget_repo(
-        name = "main",
+        name = "dotnet_deps",
         packages = [
             ("CommandLineParser", "2.8.0", "sha512-jCdlE9/pHlvHLPs7lqDSRBHuO9Lpgy1CP2rePzlkoBHbuXfKkGAXUPoTOgol/nL2aVW+f2mnL11rc8fzEwlLXw==", [], []),
             ("Handlebars.Net", "1.11.5", "sha512-0MwU7vAXI3hT+9W7r7vadVZ21+HoGC5Z0Qc39JP+xxMlF7YOyZEhFByoQ2gtldWyeG6Gt2LglcFH8kJaXg/uiQ==", ["Microsoft.CSharp", "System.Reflection.TypeExtensions"], []),
