@@ -11,7 +11,10 @@ load("//dotnet/private:generate_devtools.bzl", _generate_devtools = "generate_de
 def framework(name):
     return "@dotnet_deps//%s" % name.lower()
 
-DEFAULT_FRAMEWORKS = ["net6.0"]
+DEFAULT_FRAMEWORKS = [
+    "net5.0",
+    "net6.0",
+]
 
 #generated_assembly_info = _generated_assembly_info
 #csharp_executable = _csharp_executable

@@ -4,7 +4,8 @@ load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
 csharp_binary(
     name = "generator",
     srcs = glob(["**/*.cs"]),
-    target_frameworks = DEFAULT_FRAMEWORKS,
+    # Used as a tool in our build, so just target one framework
+    target_frameworks = ["net6.0"],
     visibility = [
         "//dotnet:__subpackages__",
     ],
