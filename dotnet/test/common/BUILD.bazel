@@ -1,0 +1,13 @@
+load("@rules_dotnet//dotnet:defs.bzl", "csharp_nunit_test")
+load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
+
+csharp_nunit_test(
+    name = "CookieTest",
+    srcs = ["CookieTest.cs"],
+    target_frameworks = DEFAULT_FRAMEWORKS,
+    deps = [
+        "//dotnet/src/webdriver",
+        framework("Microsoft.NETCore.App.Ref"),
+        framework("System.Runtime"),
+    ],
+)

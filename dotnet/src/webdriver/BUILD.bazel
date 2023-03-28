@@ -22,6 +22,9 @@ csharp_library(
         "DevTools/v111/*.cs",
     ]),
     target_frameworks = DEFAULT_FRAMEWORKS,
+    visibility = [
+        "//dotnet/test:__subpackages__",
+    ],
     deps = [
         framework("Microsoft.NETCore.App.Ref"),
         framework("Newtonsoft.Json"),
