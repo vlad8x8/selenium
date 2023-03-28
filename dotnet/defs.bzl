@@ -1,12 +1,13 @@
 #load("//dotnet/private:assembly_info.bzl", _generated_assembly_info = "generated_assembly_info")
 #load("//dotnet/private:executable_assembly.bzl", _csharp_executable = "csharp_executable")
 load("//dotnet/private:generate_devtools.bzl", _generate_devtools = "generate_devtools")
+load(":selenium-dotnet-version.bzl", "SUPPORTED_DEVTOOLS_VERSIONS")
 
-#def devtools_version_targets():
-#    targets = []
-#    for devtools_version in SUPPORTED_DEVTOOLS_VERSIONS:
-#        targets.append("//dotnet/src/webdriver/cdp:generate-{}".format(devtools_version))
-#    return targets
+def devtools_version_targets():
+    targets = []
+    for devtools_version in SUPPORTED_DEVTOOLS_VERSIONS:
+        targets.append("//dotnet/src/webdriver/cdp:generate-{}".format(devtools_version))
+    return targets
 
 def framework(name):
     return "@dotnet_deps//%s" % name.lower()

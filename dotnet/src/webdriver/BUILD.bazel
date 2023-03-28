@@ -1,16 +1,11 @@
 load("@rules_dotnet//dotnet:defs.bzl", "csharp_library")
-load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
+load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "devtools_version_targets", "framework")
 
 csharp_library(
     name = "webdriver",
-    srcs = [
-        "//dotnet/src/webdriver/cdp:generate-v85",
-        "//dotnet/src/webdriver/cdp:generate-v109",
-        "//dotnet/src/webdriver/cdp:generate-v110",
-        "//dotnet/src/webdriver/cdp:generate-v111",
-    ] + glob([
+    srcs = glob([
         "**/*.cs",
-    ]),
+    ]) + devtools_version_targets(),
     target_frameworks = DEFAULT_FRAMEWORKS,
     visibility = [
         "//dotnet:__subpackages__",
