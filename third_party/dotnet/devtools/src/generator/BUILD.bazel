@@ -10,6 +10,9 @@ csharp_binary(
         "//common:windows": "win10-x64",
     }),
     target_frameworks = DEFAULT_FRAMEWORKS,
+    visibility = [
+        "//dotnet:__subpackages__",
+    ],
     deps = [
         framework("CommandLineParser"),
         framework("Handlebars.Net"),
