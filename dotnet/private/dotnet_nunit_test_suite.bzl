@@ -1,4 +1,5 @@
 load("@rules_dotnet//dotnet:defs.bzl", "csharp_library", "csharp_test")
+load("//common:browsers.bzl", "chrome_data")
 
 def _is_test(src, test_suffixes):
     for suffix in test_suffixes:
@@ -14,6 +15,8 @@ def dotnet_nunit_test_suite(
         test_suffixes = ["Test.cs"],
         size = None,
         tags = [],
+        data = [],
+        browsers = ["chrome"],
         **kwargs):
     test_srcs = [src for src in srcs if _is_test(src, test_suffixes)]
     lib_srcs = [src for src in srcs if not _is_test(src, test_suffixes)]
@@ -41,6 +44,19 @@ def dotnet_nunit_test_suite(
             srcs = [src] + ["@rules_dotnet//dotnet/private/rules/common/nunit:shim.cs"],
             deps = deps + extra_deps,
             target_frameworks = target_frameworks,
+            args = select({
+                "//common:macos": [
+                    "--params=DriverServiceLocation=$(location @mac_chromedriver//:chromedriver)",
+                    "--params=BrowserLocation=$(location @mac_chrome//:Chromium.app)/Contents/MacOS/Chromium",
+                ],
+                "//common:linux": [
+                ],
+                "//conditions:default": [],
+            }),
+            data = data + [
+                "@mac_chromedriver//:chromedriver",
+                "@mac_chrome//:Chromium.app",
+            ],
             **kwargs
         )
         tests.append(test_name)
