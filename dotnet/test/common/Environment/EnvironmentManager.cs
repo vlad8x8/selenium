@@ -1,3 +1,4 @@
+using Bazel;
 using System;
 using System.Reflection;
 using System.IO;
@@ -20,11 +21,13 @@ namespace OpenQA.Selenium.Environment
 
         private EnvironmentManager()
         {
+            var runfiles = Runfiles.Create();
+            var dataFilePath = runfiles.Rlocation("selenium/dotnet/test/common/appconfig.json");
             string currentDirectory = this.CurrentDirectory;
-            string defaultConfigFile = Path.Combine(currentDirectory, "appconfig.json");
-            string configFile = TestContext.Parameters.Get<string>("ConfigFile", defaultConfigFile).Replace('/', Path.DirectorySeparatorChar);
+//            string defaultConfigFile = Path.Combine(currentDirectory, "appconfig.json");
+//            string configFile = TestContext.Parameters.Get<string>("ConfigFile", defaultConfigFile).Replace('/', Path.DirectorySeparatorChar);
 
-            string content = File.ReadAllText(configFile);
+            string content = File.ReadAllText(dataFilePath);
             TestEnvironment env = JsonConvert.DeserializeObject<TestEnvironment>(content);
 
             string activeDriverConfig = System.Environment.GetEnvironmentVariable("ACTIVE_DRIVER_CONFIG") ?? TestContext.Parameters.Get("ActiveDriverConfig", env.ActiveDriverConfig);

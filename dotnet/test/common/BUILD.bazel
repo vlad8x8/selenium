@@ -4,9 +4,13 @@ dotnet_nunit_test_suite(
     name = "AllTests",
     size = "large",
     srcs = glob(["**/*.cs"]),
+    data = [
+        "appconfig.json",
+    ],
     target_frameworks = ["net6.0"],
     deps = [
         "//dotnet/src/webdriver",
+        "@rules_dotnet//tools/runfiles",
         framework("Microsoft.NETCore.App.Ref"),
         framework("Newtonsoft.Json"),
         framework("NUnit"),
