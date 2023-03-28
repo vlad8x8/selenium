@@ -4,11 +4,6 @@ load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
 csharp_binary(
     name = "generator",
     srcs = glob(["**/*.cs"]),
-    runtime_identifier = select({
-        "//common:macos": "osx.12-arm64",
-        "//common:linux": "linux-x64",
-        "//common:windows": "win10-x64",
-    }),
     target_frameworks = DEFAULT_FRAMEWORKS,
     visibility = [
         "//dotnet:__subpackages__",
