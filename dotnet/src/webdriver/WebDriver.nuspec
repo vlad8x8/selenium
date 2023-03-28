@@ -26,10 +26,9 @@
     <icon>images\icon.png</icon>
     <tags>selenium webdriver browser automation</tags>
     <dependencies>
-      <group targetFramework="net45" />
-      <group targetFramework="net46" />
-      <group targetFramework="net47" />
-      <group targetFramework="net48" />
+      <group targetFramework="net48">
+        <dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers" />
+      </group>
       <group targetFramework="netstandard2.0">
         <dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers" />
       </group>
