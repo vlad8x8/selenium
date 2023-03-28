@@ -46,16 +46,18 @@ def dotnet_nunit_test_suite(
             target_frameworks = target_frameworks,
             args = select({
                 "//common:macos": [
-                    "--params=DriverServiceLocation=$(location @mac_chromedriver//:chromedriver)",
-                    "--params=BrowserLocation=$(location @mac_chrome//:Chromium.app)/Contents/MacOS/Chromium",
+                    "--params=ActiveDriverConfig=Firefox",
+                    "--params=DriverServiceLocation=$(location @mac_geckodriver//:geckodriver)",
+                    "--params=BrowserLocation=$(location @mac_firefox//:Firefox.app)/Contents/MacOS/firefox",
                 ],
                 "//common:linux": [
                 ],
                 "//conditions:default": [],
             }),
             data = data + [
-                "@mac_chromedriver//:chromedriver",
-                "@mac_chrome//:Chromium.app",
+                "@mac_geckodriver//:geckodriver",
+                "@mac_firefox//:Firefox.app",
+                "//common/src/web",
             ],
             **kwargs
         )

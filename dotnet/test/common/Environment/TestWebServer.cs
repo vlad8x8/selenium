@@ -1,3 +1,4 @@
+using Bazel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,8 +33,12 @@ namespace OpenQA.Selenium.Environment
         {
             if (webserverProcess == null || webserverProcess.HasExited)
             {
-                standaloneTestJar = standaloneTestJar.Replace('/', Path.DirectorySeparatorChar);
-                if (!File.Exists(Path.Combine(projectRootPath, standaloneTestJar)))
+                var runfiles = Runfiles.Create();
+                standaloneTestJar = runfiles.Rlocation(standaloneTestJar);
+
+                Console.Write("Standalone jar is " + standaloneTestJar);
+
+                if (!File.Exists(standaloneTestJar))
                 {
                     throw new FileNotFoundException(
                         string.Format(
@@ -94,11 +99,11 @@ namespace OpenQA.Selenium.Environment
                     webserverProcess.StartInfo.EnvironmentVariables["JAVA_HOME"] = this.javaHomeDirectory;
                 }
 
-                if (captureWebServerOutput)
-                {
+//                if (captureWebServerOutput)
+//                {
                     webserverProcess.StartInfo.RedirectStandardOutput = true;
                     webserverProcess.StartInfo.RedirectStandardError = true;
-                }
+//                }
 
                 webserverProcess.Start();
 

@@ -6,6 +6,11 @@ dotnet_nunit_test_suite(
     srcs = glob(["**/*.cs"]),
     data = [
         "appconfig.json",
+        "//java/test/org/openqa/selenium/environment:appserver_deploy.jar",
+        "//java/test/org/openqa/selenium/environment:keystore",
+        "//javascript/atoms",
+        "//third_party/closure/goog",
+        "//third_party/js/selenium:webdriver_json",
     ],
     target_frameworks = ["net6.0"],
     deps = [
