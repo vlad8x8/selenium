@@ -35,6 +35,8 @@ namespace OpenQA.Selenium.Environment
                 driverServiceLocation = Path.GetDirectoryName(driverServiceLocation);
             }
 
+            string browserLocation = System.Environment.GetEnvironmentVariable("BROWSER_LOCATION") ?? TestContext.Parameters.Get("BrowserLocation", string.Empty);
+
             string activeWebsiteConfig = TestContext.Parameters.Get("ActiveWebsiteConfig", env.ActiveWebsiteConfig);
             DriverConfig driverConfig = env.DriverConfigs[activeDriverConfig];
             WebsiteConfig websiteConfig = env.WebSiteConfigs[activeWebsiteConfig];
@@ -43,7 +45,7 @@ namespace OpenQA.Selenium.Environment
             webServerConfig.HideCommandPromptWindow = TestContext.Parameters.Get<bool>("HideWebServerCommandPrompt", env.TestWebServerConfig.HideCommandPromptWindow);
             webServerConfig.JavaHomeDirectory = TestContext.Parameters.Get("WebServerJavaHome", env.TestWebServerConfig.JavaHomeDirectory);
 
-            this.driverFactory = new DriverFactory(driverServiceLocation);
+            this.driverFactory = new DriverFactory(driverServiceLocation, browserLocation);
             this.driverFactory.DriverStarting += OnDriverStarting;
 
             Assembly driverAssembly = null;
