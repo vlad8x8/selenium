@@ -141,23 +141,22 @@ load("@maven//:defs.bzl", "pinned_maven_install")
 pinned_maven_install()
 
 http_archive(
-    name = "d2l_rules_csharp",
-    sha256 = "c0152befb1fd0e08527b38e41ef00b6627f9f0c2be6f2d23a4950f41701fa48a",
-    strip_prefix = "rules_csharp-50e2f6c79e7a53e50b4518239b5ebcc61279759e",
-    urls = [
-        "https://github.com/Brightspace/rules_csharp/archive/50e2f6c79e7a53e50b4518239b5ebcc61279759e.tar.gz",
-    ],
+    name = "rules_dotnet",
+    sha256 = "2650540b29ef1b31b665305bb13497d25d5f565bde459b3e614474177783c7e0",
+    strip_prefix = "rules_dotnet-0.8.9",
+    url = "https://github.com/bazelbuild/rules_dotnet/releases/download/v0.8.9/rules_dotnet-v0.8.9.tar.gz",
 )
 
-load("//dotnet:workspace.bzl", "selenium_register_dotnet")
-
-selenium_register_dotnet()
-
-http_archive(
-    name = "rules_rust",
-    sha256 = "dc8d79fe9a5beb79d93e482eb807266a0e066e97a7b8c48d43ecf91f32a3a8f3",
-    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.19.0/rules_rust-v0.19.0.tar.gz"],
+load(
+    "@rules_dotnet//dotnet:repositories.bzl",
+    "dotnet_register_toolchains",
+    "rules_dotnet_dependencies",
 )
+
+rules_dotnet_dependencies()
+
+# Here you can specify the version of the .NET SDK to use.
+dotnet_register_toolchains("dotnet", "6.0.401")
 
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
 
