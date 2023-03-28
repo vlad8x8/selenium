@@ -24,8 +24,6 @@ namespace OpenQA.Selenium.Environment
             var runfiles = Runfiles.Create();
             var dataFilePath = runfiles.Rlocation("selenium/dotnet/test/common/appconfig.json");
             string currentDirectory = this.CurrentDirectory;
-//            string defaultConfigFile = Path.Combine(currentDirectory, "appconfig.json");
-//            string configFile = TestContext.Parameters.Get<string>("ConfigFile", defaultConfigFile).Replace('/', Path.DirectorySeparatorChar);
 
             string content = File.ReadAllText(dataFilePath);
             TestEnvironment env = JsonConvert.DeserializeObject<TestEnvironment>(content);
