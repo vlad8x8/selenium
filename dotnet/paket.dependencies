@@ -1,0 +1,5 @@
+framework: net6.0
+source https://api.nuget.org/v3/index.json
+
+group dotnet_deps
+    nuget System.Runtime 4.3.1

@@ -158,6 +158,14 @@ rules_dotnet_dependencies()
 # Here you can specify the version of the .NET SDK to use.
 dotnet_register_toolchains("dotnet", "6.0.401")
 
+load("@rules_dotnet//dotnet:rules_dotnet_nuget_packages.bzl", "rules_dotnet_nuget_packages")
+
+rules_dotnet_nuget_packages()
+
+load("@rules_dotnet//dotnet:paket2bazel_dependencies.bzl", "paket2bazel_dependencies")
+
+paket2bazel_dependencies()
+
 http_archive(
     name = "rules_rust",
     sha256 = "dc8d79fe9a5beb79d93e482eb807266a0e066e97a7b8c48d43ecf91f32a3a8f3",
