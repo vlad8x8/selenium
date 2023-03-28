@@ -158,6 +158,12 @@ rules_dotnet_dependencies()
 # Here you can specify the version of the .NET SDK to use.
 dotnet_register_toolchains("dotnet", "6.0.401")
 
+http_archive(
+    name = "rules_rust",
+    sha256 = "dc8d79fe9a5beb79d93e482eb807266a0e066e97a7b8c48d43ecf91f32a3a8f3",
+    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.19.0/rules_rust-v0.19.0.tar.gz"],
+)
+
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
 
 rules_rust_dependencies()
