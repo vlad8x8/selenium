@@ -24,15 +24,15 @@ def dotnet_nunit_test_suite(
     extra_deps = [
         "@dotnet_deps//nunitlite",
     ]
-    if len(lib_srcs):
-        csharp_library(
-            name = "%s-support-lib" % name,
-            srcs = lib_srcs,
-            deps = deps,
-            tags = tags,
-            target_frameworks = target_frameworks,
-        )
-        extra_deps.append(":%s-support-lib" % name)
+    # if len(lib_srcs):
+    #     csharp_library(
+    #         name = "%s-support-lib" % name,
+    #         srcs = lib_srcs,
+    #         deps = deps,
+    #         tags = tags,
+    #         target_frameworks = target_frameworks,
+    #     )
+    #     extra_deps.append(":%s-support-lib" % name)
 
     tests = []
     for src in test_srcs:
@@ -41,7 +41,7 @@ def dotnet_nunit_test_suite(
 
         csharp_test(
             name = test_name,
-            srcs = [src] + ["@rules_dotnet//dotnet/private/rules/common/nunit:shim.cs"],
+            srcs = lib_srcs + [src] + ["@rules_dotnet//dotnet/private/rules/common/nunit:shim.cs"],
             deps = deps + extra_deps,
             target_frameworks = target_frameworks,
             args = select({

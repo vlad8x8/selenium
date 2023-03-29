@@ -127,6 +127,7 @@ namespace OpenQA.Selenium.Environment
                 projectRoot += "/selenium";
             }
 
+            //var deployJarPath = runfiles.Rlocation("selenium/java/test/org/openqa/selenium/environment/appserver_deploy.jar");
             webServer = new TestWebServer(projectRoot, webServerConfig);
             bool autoStartRemoteServer = false;
             if (browser == Browser.Remote)

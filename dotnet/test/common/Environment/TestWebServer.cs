@@ -13,7 +13,7 @@ namespace OpenQA.Selenium.Environment
     {
         private Process webserverProcess;
 
-        private string standaloneTestJar = @"java/test/org/openqa/selenium/environment/appserver_deploy.jar";
+        private string standaloneTestJar = @"selenium/java/test/org/openqa/selenium/environment/appserver_deploy.jar";
         private string projectRootPath;
         private bool captureWebServerOutput;
         private bool hideCommandPrompt;
