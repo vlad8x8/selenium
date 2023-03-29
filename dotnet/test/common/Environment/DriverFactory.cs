@@ -98,6 +98,12 @@ namespace OpenQA.Selenium.Environment
                     ((FirefoxOptions)options).BrowserExecutableLocation = this.browserBinaryLocation;
                 }
             }
+            else if (typeof(EdgeDriver).IsAssignableFrom(driverType))
+            {
+                browser = Browser.Edge;
+                options = GetDriverOptions<EdgeOptions>(driverType, driverOptions);
+                service = CreateService<EdgeDriverService>(driverType);
+            }
             else if (typeof(SafariDriver).IsAssignableFrom(driverType))
             {
                 browser = Browser.Safari;
