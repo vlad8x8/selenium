@@ -4,6 +4,10 @@ dotnet_nunit_test_suite(
     name = "AllTests",
     size = "large",
     srcs = glob(["**/*.cs"]),
+    browsers = [
+        "firefox",
+        "chrome",
+    ],
     data = [
         "appconfig.json",
         "//java/test/org/openqa/selenium/environment:appserver_deploy.jar",
