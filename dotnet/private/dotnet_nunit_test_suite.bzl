@@ -22,7 +22,7 @@ _BROWSERS = {
             ],
             "@selenium//common:use_local_chromedriver": [],
             "//conditions:default": [
-                # Skip test
+                "--where=SkipTest==True",
             ],
         }),
         "data": chrome_data,
@@ -37,7 +37,7 @@ _BROWSERS = {
             ],
             "@selenium//common:use_local_msedgedriver": [],
             "//conditions:default": [
-                "-Dselenium.skiptest=false",
+                "--where=SkipTest==True",
             ],
         }),
         "data": edge_data,
@@ -56,7 +56,7 @@ _BROWSERS = {
             ],
             "@selenium//common:use_local_geckodriver": [],
             "//conditions:default": [
-                "-Dselenium.skiptest=false",
+                "--where=SkipTest==True",
             ],
         }),
         "data": firefox_data,
@@ -64,13 +64,23 @@ _BROWSERS = {
     "ie": {
         "args": [
             "--params=ActiveDriverConfig=IE",
-        ],
+        ] + select({
+            "//common:windows": [],
+            "//conditions:default": [
+                "--where=SkipTest==True",
+            ],
+        }),
         "data": [],
     },
     "safari": {
         "args": [
             "--params=ActiveDriverConfig=Safari",
-        ],
+        ] + select({
+            "//common:macos": [],
+            "//conditions:default": [
+                "--where=SkipTest==True",
+            ],
+        }),
         "data": [],
     },
 }
