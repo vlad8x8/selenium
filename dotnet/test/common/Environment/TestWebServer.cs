@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Diagnostics;
 using System.Text;
+using OpenQA.Selenium.Internal;
 using NUnit.Framework;
 
 namespace OpenQA.Selenium.Environment
@@ -18,6 +19,7 @@ namespace OpenQA.Selenium.Environment
         private bool captureWebServerOutput;
         private bool hideCommandPrompt;
         private string javaHomeDirectory;
+        private string port;
 
         private StringBuilder outputData = new StringBuilder();
 
@@ -27,6 +29,7 @@ namespace OpenQA.Selenium.Environment
             this.captureWebServerOutput = config.CaptureConsoleOutput;
             this.hideCommandPrompt = config.HideCommandPromptWindow;
             this.javaHomeDirectory = config.JavaHomeDirectory;
+            this.port = config.Port;
         }
 
         public void Start()
@@ -79,6 +82,7 @@ namespace OpenQA.Selenium.Environment
                 }
 
                 processArgsBuilder.AppendFormat("-jar {0}", standaloneTestJar);
+                processArgsBuilder.AppendFormat(" {0}", this.port);
 
                 webserverProcess = new Process();
                 if (!string.IsNullOrEmpty(javaExecutablePath))

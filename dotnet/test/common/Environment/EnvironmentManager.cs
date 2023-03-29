@@ -4,6 +4,7 @@ using System.Reflection;
 using System.IO;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using OpenQA.Selenium.Internal;
 
 namespace OpenQA.Selenium.Environment
 {
@@ -40,10 +41,15 @@ namespace OpenQA.Selenium.Environment
             string activeWebsiteConfig = TestContext.Parameters.Get("ActiveWebsiteConfig", env.ActiveWebsiteConfig);
             DriverConfig driverConfig = env.DriverConfigs[activeDriverConfig];
             WebsiteConfig websiteConfig = env.WebSiteConfigs[activeWebsiteConfig];
+
+            int port = PortUtilities.FindFreePort();
+            websiteConfig.Port = port.ToString();
+
             TestWebServerConfig webServerConfig = env.TestWebServerConfig;
             webServerConfig.CaptureConsoleOutput = TestContext.Parameters.Get<bool>("CaptureWebServerOutput", env.TestWebServerConfig.CaptureConsoleOutput);
             webServerConfig.HideCommandPromptWindow = TestContext.Parameters.Get<bool>("HideWebServerCommandPrompt", env.TestWebServerConfig.HideCommandPromptWindow);
             webServerConfig.JavaHomeDirectory = TestContext.Parameters.Get("WebServerJavaHome", env.TestWebServerConfig.JavaHomeDirectory);
+            webServerConfig.Port = websiteConfig.Port;
 
             this.driverFactory = new DriverFactory(driverServiceLocation, browserLocation);
             this.driverFactory.DriverStarting += OnDriverStarting;
