@@ -101,8 +101,12 @@ namespace OpenQA.Selenium.Environment
             else if (typeof(EdgeDriver).IsAssignableFrom(driverType))
             {
                 browser = Browser.Edge;
-                options = GetDriverOptions<EdgeOptions>(driverType, driverOptions);
                 service = CreateService<EdgeDriverService>(driverType);
+                options = GetDriverOptions<EdgeOptions>(driverType, driverOptions);
+                if (!string.IsNullOrEmpty(this.browserBinaryLocation))
+                {
+                    ((EdgeOptions)options).BinaryLocation = this.browserBinaryLocation;
+                }
             }
             else if (typeof(SafariDriver).IsAssignableFrom(driverType))
             {
