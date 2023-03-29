@@ -7,6 +7,7 @@ def dotnet_deps():
     nuget_repo(
         name = "dotnet_deps",
         packages = [
+            ("BenderProxy", "1.0.0", "sha512-zNsAtO6ZwNa0MfyFFJAzA6rsTtqnjY+bD2gCDHSUIbRS31wRJ9GfOeummSlEVaH/DSxxiuQaIhZmtIFAM0WW+A==", [], []),
             ("CommandLineParser", "2.8.0", "sha512-jCdlE9/pHlvHLPs7lqDSRBHuO9Lpgy1CP2rePzlkoBHbuXfKkGAXUPoTOgol/nL2aVW+f2mnL11rc8fzEwlLXw==", [], []),
             ("Handlebars.Net", "1.11.5", "sha512-0MwU7vAXI3hT+9W7r7vadVZ21+HoGC5Z0Qc39JP+xxMlF7YOyZEhFByoQ2gtldWyeG6Gt2LglcFH8kJaXg/uiQ==", ["Microsoft.CSharp", "System.Reflection.TypeExtensions"], []),
             ("Humanizer.Core", "2.8.26", "sha512-hdDm8u0FrPEorV1qXA+W01DCR9zeNX5fwe5fXFUyzmA/JjLxMjt7/W672rSOWIjWHGkD6cZYOFLjIg/0O+a8kg==", [], []),
@@ -25,8 +26,15 @@ def dotnet_deps():
             ("NUnitLite", "3.13.2", "sha512-kPGW4B0ycZAqDPLPKU058JR9onD3svLKAYEghQ1Oyy1YC8bIgtniGUKUbjqeNI3i5KnqFMxEdiHTGF0XxDG9hQ==", ["NUnit", "NETStandard.Library"], []),
             ("System.Diagnostics.Tools", "4.3.0", "sha512-Fk1pd+chy860Tt57/XWwO42XceBCau+l1Axxhn6WQJL9xqaAi8vFVZ7XPsLFMsplfWR2r3mknKOth5uDZvE9kA==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Runtime"], []),
             ("System.Formats.Asn1", "7.0.0", "sha512-8E8q+9u6fZJpeckoVM7BgxXMdunQwofjcD0RPkz7D+9gLwlMuHTMYV6uhDc+a4O7i/Q3V5rzsGB/+OYECDrI2w==", [], []),
+            ("System.IO", "4.3.0", "sha512-v8paIePhmGuXZbE9xvvNb4uJ5ME4OFXR1+8la/G/L1GIl2nbU2WFnddgb79kVK3U2us7q1aZT/uY/R0D/ovB5g==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Runtime", "System.Text.Encoding", "System.Threading.Tasks"], []),
+            ("System.Reflection", "4.3.0", "sha512-IyW2ftYNzgMCgHBk8lQiy+G3+ydbU5tE+6PEqM5JJvIdeFKaXDSzHAPYDREPe6zpr5WJ1Fcma+rAFCIAV6+DMw==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.IO", "System.Reflection.Primitives", "System.Runtime"], []),
+            ("System.Reflection.Primitives", "4.3.0", "sha512-1LnMkF9aXKuQAgYzjoiQaL9mwY7oY6KdaO/zzeLMynNBEqKoUfLi5TiKIewoAF+hkxfGTZsjkjsF1jRL4uSeqg==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Runtime"], []),
             ("System.Reflection.TypeExtensions", "4.7.0", "sha512-Q/fczHO357fqTntQPZBSwhstHCcZFvgqOwBnkO+lhMyS2pYBDtXyfRQblK3SYXN8GXHOEJzjNM5Tr12zp73c6A==", [], []),
             ("System.Runtime", "4.3.1", "sha512-Al69mPDfzdD+bKGK2HAfB+lNFOHFqnkqzNnUJmmvUe1/qEPK9M7EiTT4zuycKDPy7ev11xz8XVgJWKP0hm7NIA==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets"], []),
+            ("System.Runtime.Handles", "4.3.0", "sha512-CluvHdVUv54BvLTOCCyybugreDNk/rR8unMPruzXDtxSjvrQOU3M4R831/lQf4YI8VYp668FGQa/01E+Rq8PEQ==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Runtime"], []),
+            ("System.Runtime.InteropServices", "4.3.0", "sha512-ZQeZw+ZU77ua1nFXycYM5G8oioFZe+N84qC/XUg1BEBl7z9luZcyjLu7+4H0yJuNfn1hOAiAAZ3u5us/lj9w2Q==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Reflection", "System.Reflection.Primitives", "System.Runtime", "System.Runtime.Handles"], []),
             ("System.Security.Cryptography.Cng", "5.0.0", "sha512-trvkAklUhzM+/z9bPnGmDLzmbvD0l1IlC6gpFRpzjGLylTgtTPqm8Uv7tnDBTuBQObjEZBxNS0bChIi6zQCV9w==", ["System.Formats.Asn1"], []),
+            ("System.Text.Encoding", "4.3.0", "sha512-b/f+7HMTpxIfeV7H03bkuHKMFylCGfr9/U6gePnfFFW0aF8LOWLDgQCY6V1oWUqDksC3mdNuyChM1vy9TP4sZw==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Runtime"], []),
+            ("System.Threading.Tasks", "4.3.0", "sha512-fUiP+CyyCjs872OA8trl6p97qma/da1xGq3h4zAbJZk8zyaU4zyEfqW5vbkP80xG/Nimun1vlWBboMEk7XxdEw==", ["Microsoft.NETCore.Platforms", "Microsoft.NETCore.Targets", "System.Runtime"], []),
         ],
     )

@@ -26,9 +26,13 @@ dotnet_nunit_test_suite(
     deps = [
         "//dotnet/src/webdriver",
         "@rules_dotnet//tools/runfiles",
+        framework("BenderProxy"),
+        framework("Microsoft.IdentityModel.Abstractions"),
+        framework("Microsoft.IdentityModel.Tokens"),
         framework("Microsoft.NETCore.App.Ref"),
         framework("Newtonsoft.Json"),
         framework("NUnit"),
         framework("System.Runtime"),
+        framework("System.Runtime.InteropServices"),
     ],
 )
