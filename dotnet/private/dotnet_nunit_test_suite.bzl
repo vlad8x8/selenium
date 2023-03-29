@@ -1,30 +1,86 @@
 load("@rules_dotnet//dotnet:defs.bzl", "csharp_library", "csharp_test")
-load("//common:browsers.bzl", "chrome_data")
+load(
+    "//common:browsers.bzl",
+    "COMMON_TAGS",
+    "chrome_data",
+    "edge_data",
+    "firefox_data",
+)
 
 _BROWSERS = {
     "chrome": {
-        "args": [],
-        "data": [],
+        "args": [
+            "--params=ActiveDriverConfig=Chrome",
+        ] + select({
+            "@selenium//common:use_pinned_linux_chrome": [
+                "--params=DriverServiceLocation=$(location @linux_chromedriver//:chromedriver)",
+                "--params=BrowserLocation=$(location @linux_chrome//:chrome-linux)/chrome",
+            ],
+            "@selenium//common:use_pinned_macos_chrome": [
+                "--params=DriverServiceLocation=$(location @mac_chromedriver//:chromedriver)",
+                "--params=BrowserLocation=$(location @mac_chrome//:Chromium.app)/Contents/MacOS/Chromium",
+            ],
+            "@selenium//common:use_local_chromedriver": [],
+            "//conditions:default": [
+                # Skip test
+            ],
+        }),
+        "data": chrome_data,
+    },
+    "edge": {
+        "args": [
+            "--params=ActiveDriverConfig=Edge",
+        ] + select({
+            "@selenium//common:use_pinned_macos_edge": [
+                "--params=DriverServiceLocation=$(location @mac_edgedriver//:msedgedriver)",
+                "\"--params=BrowserLocation=$(location @mac_edge//:Edge.app)/Contents/MacOS/Microsoft Edge\"",
+            ],
+            "@selenium//common:use_local_msedgedriver": [],
+            "//conditions:default": [
+                "-Dselenium.skiptest=false",
+            ],
+        }),
+        "data": edge_data,
     },
     "firefox": {
         "args": [
             "--params=ActiveDriverConfig=Firefox",
         ] + select({
-            "//common:macos": [
+            "@selenium//common:use_pinned_linux_firefox": [
+                "--params=DriverServiceLocation=$(location @linux_geckodriver//:geckodriver)",
+                "--params=BrowserLocation=$(location @linux_firefox//:firefox)/firefox",
+            ],
+            "@selenium//common:use_pinned_macos_firefox": [
                 "--params=DriverServiceLocation=$(location @mac_geckodriver//:geckodriver)",
                 "--params=BrowserLocation=$(location @mac_firefox//:Firefox.app)/Contents/MacOS/firefox",
             ],
-            "//common:linux": [
+            "@selenium//common:use_local_geckodriver": [],
+            "//conditions:default": [
+                "-Dselenium.skiptest=false",
             ],
-            "//conditions:default": [],
         }),
-        "data": [
-            "@mac_geckodriver//:geckodriver",
-            "@mac_firefox//:Firefox.app",
-            "//common/src/web",
+        "data": firefox_data,
+    },
+    "ie": {
+        "args": [
+            "--params=ActiveDriverConfig=IE",
         ],
+        "data": [],
+    },
+    "safari": {
+        "args": [
+            "--params=ActiveDriverConfig=Safari",
+        ],
+        "data": [],
     },
 }
+
+_HEADLESS_ARGS = select({
+    "@selenium//common:use_headless_browser": [
+        "--params=Headless=true",
+    ],
+    "//conditions:default": [],
+})
 
 def _is_test(src, test_suffixes):
     for suffix in test_suffixes:
@@ -86,7 +142,7 @@ def dotnet_nunit_test_suite(
                     srcs = lib_srcs + [src] + ["@rules_dotnet//dotnet/private/rules/common/nunit:shim.cs"],
                     deps = deps + extra_deps,
                     target_frameworks = target_frameworks,
-                    args = _BROWSERS[browser]["args"],
+                    args = _BROWSERS[browser]["args"] + _HEADLESS_ARGS,
                     data = data + _BROWSERS[browser]["data"],
                     tags = tags + [
                         "browser-test",
