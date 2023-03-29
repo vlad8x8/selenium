@@ -1,4 +1,4 @@
-load("@rules_dotnet//dotnet:defs.bzl", "csharp_library", "csharp_test")
+load("@rules_dotnet//dotnet:defs.bzl", "csharp_test")
 load(
     "//common:browsers.bzl",
     "COMMON_TAGS",
@@ -144,12 +144,7 @@ def dotnet_nunit_test_suite(
                     target_frameworks = target_frameworks,
                     args = _BROWSERS[browser]["args"] + _HEADLESS_ARGS,
                     data = data + _BROWSERS[browser]["data"],
-                    tags = tags + [
-                        "browser-test",
-                        "requires-network",
-                        "no-sandbox",
-                        browser,
-                    ],
+                    tags = tags + [browser] + COMMON_TAGS,
                     **kwargs
                 )
                 tests.append(browser_test_name)
