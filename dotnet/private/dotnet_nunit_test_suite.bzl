@@ -24,15 +24,6 @@ def dotnet_nunit_test_suite(
     extra_deps = [
         "@dotnet_deps//nunitlite",
     ]
-    # if len(lib_srcs):
-    #     csharp_library(
-    #         name = "%s-support-lib" % name,
-    #         srcs = lib_srcs,
-    #         deps = deps,
-    #         tags = tags,
-    #         target_frameworks = target_frameworks,
-    #     )
-    #     extra_deps.append(":%s-support-lib" % name)
 
     tests = []
     for src in test_srcs:
