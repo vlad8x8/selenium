@@ -59,6 +59,11 @@ def dotnet_nunit_test_suite(
                 "@mac_firefox//:Firefox.app",
                 "//common/src/web",
             ],
+            tags = tags + [
+                "browser-test",
+                "no-sandbox",
+                "requires-network",
+            ],
             **kwargs
         )
         tests.append(test_name)
