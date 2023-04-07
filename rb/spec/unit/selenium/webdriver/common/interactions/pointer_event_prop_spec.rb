@@ -28,6 +28,7 @@ module Selenium
             include PointerEventProperties
 
             def initialize(opts)
+              super
               @opts = opts
             end
 
