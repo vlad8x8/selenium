@@ -1,6 +1,7 @@
 #load("//dotnet/private:assembly_info.bzl", _generated_assembly_info = "generated_assembly_info")
 #load("//dotnet/private:executable_assembly.bzl", _csharp_executable = "csharp_executable")
 load("//dotnet/private:dotnet_nunit_test_suite.bzl", _dotnet_nunit_test_suite = "dotnet_nunit_test_suite")
+load("//dotnet/private:dotnet_tool.bzl", _dotnet_tool = "dotnet_tool")
 load("//dotnet/private:generate_devtools.bzl", _generate_devtools = "generate_devtools")
 load("//dotnet/private:nuget_export.bzl", _nuget_library_export = "nuget_library_export")
 load(":selenium-dotnet-version.bzl", "SUPPORTED_DEVTOOLS_VERSIONS")
@@ -19,6 +20,7 @@ DEFAULT_FRAMEWORKS = [
     "net6.0",
 ]
 
+dotnet_tool = _dotnet_tool
 dotnet_nunit_test_suite = _dotnet_nunit_test_suite
 
 #generated_assembly_info = _generated_assembly_info
