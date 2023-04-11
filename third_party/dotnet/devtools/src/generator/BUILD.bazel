@@ -1,14 +1,20 @@
-load("@rules_dotnet//dotnet:defs.bzl", "csharp_binary", "csharp_library")
-load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "framework")
+load("@rules_dotnet//dotnet:defs.bzl", "csharp_binary", "csharp_library", "publish_binary")
+load("//dotnet:defs.bzl", "framework")
 
-csharp_binary(
+publish_binary(
     name = "generator",
-    srcs = glob(["**/*.cs"]),
-    # Used as a tool in our build, so just target one framework
-    target_frameworks = ["net6.0"],
+    binary = ":generator-bin",
+    target_framework = "net6.0",
     visibility = [
         "//dotnet:__subpackages__",
     ],
+)
+
+csharp_binary(
+    name = "generator-bin",
+    srcs = glob(["**/*.cs"]),
+    # Used as a tool in our build, so just target one framework
+    target_frameworks = ["net6.0"],
     deps = [
         framework("CommandLineParser"),
         framework("Handlebars.Net"),
