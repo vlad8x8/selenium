@@ -1,5 +1,5 @@
 load("@rules_dotnet//dotnet:defs.bzl", "csharp_library")
-load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "devtools_version_targets", "framework")
+load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "devtools_version_targets", "framework", "nuget_library_export")
 
 csharp_library(
     name = "webdriver",
@@ -24,4 +24,10 @@ csharp_library(
         framework("Newtonsoft.Json"),
         framework("System.Runtime"),
     ],
+)
+
+nuget_library_export(
+    name = "publish-webdriver",
+    library = ":webdriver",
+    target_frameworks = DEFAULT_FRAMEWORKS,
 )
