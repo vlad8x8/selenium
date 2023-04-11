@@ -41,20 +41,26 @@ def _dotnet_tool_impl(ctx):
     default_info = binary[DefaultInfo]
 
     exe = default_info.files_to_run.executable
-    exe_name = exe.basename
 
-    copied_exe = ctx.actions.declare_file(paths.join(ctx.label.name, exe_name))
-    ctx.actions.symlink(
-        output = copied_exe,
-        target_file = exe,
+    script = """#!/usr/bin/env bash -x
+
+{exe} $@
+""".format(
+        exe = exe.short_path,
+    )
+    output = ctx.actions.declare_file("%s.sh" % ctx.label.name)
+    ctx.actions.write(
+        output = output,
+        content = script,
         is_executable = True,
     )
 
     return [
         DefaultInfo(
-            files = depset([copied_exe], transitive = [default_info.files]),
-            runfiles = default_info.default_runfiles,
-            executable = copied_exe,
+            files = depset([output]),
+            runfiles = ctx.runfiles(files = [output, exe], transitive_files = default_info.files)
+                .merge(default_info.default_runfiles),
+            executable = output,
         ),
     ]
 
