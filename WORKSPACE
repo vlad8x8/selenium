@@ -142,9 +142,9 @@ pinned_maven_install()
 
 http_archive(
     name = "rules_dotnet",
-    sha256 = "2650540b29ef1b31b665305bb13497d25d5f565bde459b3e614474177783c7e0",
-    strip_prefix = "rules_dotnet-0.8.9",
-    url = "https://github.com/bazelbuild/rules_dotnet/releases/download/v0.8.9/rules_dotnet-v0.8.9.tar.gz",
+    #sha256 = "2650540b29ef1b31b665305bb13497d25d5f565bde459b3e614474177783c7e0",
+    strip_prefix = "rules_dotnet-binary-transitions",
+    url = "https://github.com/bazelbuild/rules_dotnet/archive/refs/heads/binary-transitions.tar.gz",
 )
 
 load(
@@ -166,9 +166,9 @@ load("@rules_dotnet//dotnet:paket2bazel_dependencies.bzl", "paket2bazel_dependen
 
 paket2bazel_dependencies()
 
-load("//dotnet:dotnet_deps.bzl", "dotnet_deps")
+load("//dotnet:paket.bzl", "paket")
 
-dotnet_deps()
+paket()
 
 http_archive(
     name = "rules_rust",

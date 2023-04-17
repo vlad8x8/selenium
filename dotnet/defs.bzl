@@ -12,8 +12,8 @@ def devtools_version_targets():
         targets.append("//dotnet/src/webdriver/cdp:generate-{}".format(devtools_version))
     return targets
 
-def framework(name):
-    return "@dotnet_deps//%s" % name.lower()
+def framework(framework_moniker, name):
+    return "@paket.dotnet_deps_%s//%s" % (framework_moniker, name.lower())
 
 DEFAULT_FRAMEWORKS = [
     "net5.0",

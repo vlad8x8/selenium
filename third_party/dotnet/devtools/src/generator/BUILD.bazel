@@ -1,29 +1,23 @@
 load("@rules_dotnet//dotnet:defs.bzl", "csharp_binary")
-load("//dotnet:defs.bzl", "dotnet_tool", "framework")
-
-dotnet_tool(
-    name = "generator",
-    binary = ":generator-bin",
-    target_framework = "net6.0",
-    visibility = [
-        "//dotnet:__subpackages__",
-    ],
-)
+load("//dotnet:defs.bzl", "framework")
 
 csharp_binary(
-    name = "generator-bin",
+    name = "generator",
     srcs = glob(["**/*.cs"]),
     # Used as a tool in our build, so just target one framework
     target_frameworks = ["net6.0"],
     deps = [
-        framework("CommandLineParser"),
-        framework("Handlebars.Net"),
-        framework("Humanizer.Core"),
-        framework("Microsoft.CSharp"),
-        framework("Microsoft.Extensions.DependencyInjection"),
-        framework("Microsoft.Extensions.DependencyInjection.Abstractions"),
-        framework("Microsoft.NETCore.App.Ref"),
-        framework("Newtonsoft.Json"),
-        framework("System.Runtime"),
+        framework("net6.0", "CommandLineParser"),
+        framework("net6.0", "Handlebars.Net"),
+        framework("net6.0", "Humanizer.Core"),
+        framework("net6.0", "Microsoft.CSharp"),
+        framework("net6.0", "Microsoft.Extensions.DependencyInjection"),
+        framework("net6.0", "Microsoft.Extensions.DependencyInjection.Abstractions"),
+        framework("net6.0", "Microsoft.NETCore.App.Ref"),
+        framework("net6.0", "Newtonsoft.Json"),
+        framework("net6.0", "System.Runtime"),
+    ],
+    visibility = [
+        "//dotnet:__subpackages__",
     ],
 )

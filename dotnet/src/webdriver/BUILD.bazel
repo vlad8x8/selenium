@@ -1,8 +1,8 @@
 load("@rules_dotnet//dotnet:defs.bzl", "csharp_library")
 load("//dotnet:defs.bzl", "DEFAULT_FRAMEWORKS", "devtools_version_targets", "framework", "nuget_library_export")
 
-csharp_library(
-    name = "webdriver",
+[csharp_library(
+    name = "%s" % framework_moniker,
     srcs = glob([
         "**/*.cs",
     ]) + devtools_version_targets(),
@@ -13,18 +13,18 @@ csharp_library(
         "//javascript/webdriver/atoms:get-attribute.js",
         "//third_party/js/selenium:webdriver_json",
     ],
-    target_frameworks = DEFAULT_FRAMEWORKS,
+    target_frameworks = [ framework_moniker ],
     visibility = [
         "//dotnet:__subpackages__",
     ],
     deps = [
-        framework("Microsoft.IdentityModel.Abstractions"),
-        framework("Microsoft.IdentityModel.Tokens"),
-        framework("Microsoft.NETCore.App.Ref"),
-        framework("Newtonsoft.Json"),
-        framework("System.Runtime"),
+        framework(framework_moniker, "Microsoft.IdentityModel.Abstractions"),
+        framework(framework_moniker, "Microsoft.IdentityModel.Tokens"),
+        framework(framework_moniker, "Microsoft.NETCore.App.Ref"),
+        framework(framework_moniker, "Newtonsoft.Json"),
+        framework(framework_moniker, "System.Runtime"),
     ],
-)
+) for framework_moniker in DEFAULT_FRAMEWORKS]
 
 nuget_library_export(
     name = "publish-webdriver",
