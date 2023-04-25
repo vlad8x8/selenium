@@ -38,7 +38,6 @@ rust_test(
         data = [":selenium-manager"],
         edition = "2021",
         tags = [
-            "exclusive",
             "no-sandbox",
             "requires-network",
         ],
