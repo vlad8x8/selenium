@@ -531,7 +531,7 @@ pub fn create_http_client(timeout: u64, proxy: &str) -> Result<Client, Box<dyn E
 
 pub fn run_shell_command(os: &str, command: String) -> Result<String, Box<dyn Error>> {
     let (shell, flag) = if WINDOWS.is(os) {
-        ("cmd.exe", "/v/c")
+        ("cmd", "/v/c")
     } else {
         ("sh", "-c")
     };

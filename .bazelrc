@@ -91,6 +91,8 @@ build:windows --action_env=USERPROFILE
 test:windows --test_env=USERPROFILE
 build:windows --action_env=HOME
 test:windows --test_env=HOME
+build:windows --action_env=PATHEXT=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL"
+test:windows --test_env=PATHEXT=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL"
 
 test --test_timeout=1800
 
