@@ -107,6 +107,7 @@ jobs:
           edge-version: ${{ inputs.browser-version || 'stable' }}
       - name: Run Bazel
         run: ${{ inputs.run }}
+        shell: powershell
       - name: Start SSH session
         if: failure() && runner.debug == '1'
         uses: mxschmitt/action-tmate@v3
