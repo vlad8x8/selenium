@@ -19,6 +19,7 @@ package org.openqa.selenium.remote.service;
 
 import com.google.common.collect.ImmutableMap;
 
+import com.google.common.io.ByteStreams;
 import org.openqa.selenium.Beta;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
@@ -31,6 +32,7 @@ import org.openqa.selenium.os.ExecutableFinder;
 
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -431,6 +433,36 @@ public class DriverService implements Closeable {
 
     protected Duration getDefaultTimeout() {
       return DEFAULT_TIMEOUT;
+    }
+
+    protected OutputStream getLogOutput(String logProperty) {
+      try {
+        File logFileLocation = getLogFile();
+        String logLocation;
+
+        if (logFileLocation == null) {
+          logLocation = System.getProperty(logProperty);
+        } else {
+          logLocation = logFileLocation.getAbsolutePath();
+        }
+
+        if (logLocation == null) {
+          return System.err;
+        }
+
+        switch (logLocation) {
+        case "/dev/stdout":
+          return System.out;
+        case "/dev/stderr":
+          return System.err;
+        case "/dev/null":
+          return ByteStreams.nullOutputStream();
+        default:
+          return new FileOutputStream(logLocation);
+        }
+      } catch (FileNotFoundException e) {
+        throw new RuntimeException(e);
+      }
     }
 
     /**
