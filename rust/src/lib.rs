@@ -539,8 +539,7 @@ pub fn run_shell_command(os: &str, command: String) -> Result<String, Box<dyn Er
         .args([flag, command.as_str()])
         .output()?;
     Ok(
-        strip_trailing_newline(String::from_utf8_lossy(&output.stdout).to_string().as_str())
-            .to_string(),
+        String::from_utf8_lossy(&output.stdout).to_string().as_str().to_string(),
     )
 }
 
