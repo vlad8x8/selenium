@@ -29,7 +29,7 @@ import org.openqa.selenium.WebDriverException;
 import java.util.logging.Logger;
 
 public class WaitForPageToLoad extends SeleneseCommand<Void> {
-  private Logger log = Logger.getLogger(WaitForPageToLoad.class.getName());
+  private static final Logger log = Logger.getLogger(WaitForPageToLoad.class.getName());
   private final Runnable sleepUntil;
   private int timeToWait = 250;
 
