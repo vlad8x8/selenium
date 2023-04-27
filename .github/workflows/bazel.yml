@@ -66,6 +66,7 @@ jobs:
       - name: Print environment variables
         # if: failure() && runner.debug == '1'
         run: env
+        shell: cmd
       # - name: Setup Bazel
       #   uses: p0deje/setup-bazel@0.2.0
       #   with:
