@@ -68,7 +68,7 @@ jobs:
         run: env
         shell: cmd
       - name: Setup Bazel
-        uses: p0deje/setup-bazel@home
+        uses: p0deje/setup-bazel@0.2.0
         with:
           bazelisk-cache: true
           disk-cache: ${{ inputs.cache-key }}
